@@ -1,0 +1,73 @@
+//Question 5
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <cmath>
+using namespace std;
+
+bool isValidOxygenValue(int value) {
+    return (value >= 1 && value <= 100);
+}
+
+int main() {
+    const int numTrainees = 3;
+    const int numRounds = 3;
+    vector<int> oxygenLevels[numTrainees];
+    float averages[numTrainees] = {0};
+    int totalOxygen[numTrainees] = {0};
+
+
+    for (int round = 1; round <= numRounds; ++round) {
+        for (int i = 0; i < numTrainees; ++i) {
+            int oxygenValue;
+            cin >> oxygenValue;  
+
+            if (!isValidOxygenValue(oxygenValue)) {
+                cout << "INVALID INPUT" << endl;
+                return 0;
+            }
+
+            oxygenLevels[i].push_back(oxygenValue);
+            totalOxygen[i] += oxygenValue;
+        }
+    }
+
+    for (int i = 0; i < numTrainees; ++i) {
+        averages[i] = static_cast<float>(totalOxygen[i]) / numRounds;
+        averages[i] = round(averages[i]); 
+    }
+
+    float maxAverage = 0;
+    for (int i = 0; i < numTrainees; ++i) {
+        if (averages[i] > maxAverage) {
+            maxAverage = averages[i];
+        }
+    }
+
+
+    if (maxAverage < 70) {
+        cout << "All trainees are unfit." << endl;
+    } else {
+
+        for (int i = 0; i < numTrainees; ++i) {
+            if (averages[i] == maxAverage) {
+                cout << "Trainee Number : " << (i + 1) << endl;
+            }
+        }
+    }
+
+    return 0;
+}
+
+Input:
+95
+92
+95
+92
+90
+92
+90
+92
+90
+
+Output: 95
