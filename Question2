@@ -1,0 +1,76 @@
+//Question 2
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function to calculate the number of frogs between stones for each query
+void countFrogsBetweenStones(const string& s, int startIndex[], int endIndex[], int result[], int n) {
+    int length = s.size();
+    int prefix_frogs[length + 1]; // prefix array (1-indexed)
+
+    // Initialize prefix sum for counting frogs up to each index
+    prefix_frogs[0] = 0; 
+    for (int i = 1; i <= length; i++) {
+        prefix_frogs[i] = prefix_frogs[i - 1] + (s[i - 1] == '*' ? 1 : 0); // Update prefix sum
+    }
+
+    // Process each query
+    for (int i = 0; i < n; i++) {
+        int start = startIndex[i];
+        int end = endIndex[i];
+
+        // Find the first and last stones in the specified range
+        int left = s.find('|', start - 1); // Find first stone
+        int right = s.rfind('|', end - 1); // Find last stone
+
+        if (left != string::npos && right != string::npos && left < right) {
+            // Count the frogs between the left and right stones
+            result[i] = prefix_frogs[right] - prefix_frogs[left + 1]; // frogs between stones
+        } else {
+            result[i] = 0;
+        }
+    }
+}
+
+int main() {
+    // Input the string of frogs and stones
+    string s;
+    cin >> s;
+
+    // Input number of queries
+    int n;
+    cin >> n;
+
+    // Declare arrays for start and end indices
+    int startIndex[n], endIndex[n], result[n];
+
+    // Input start indices
+    for (int i = 0; i < n; i++) {
+        cin >> startIndex[i];
+    }
+
+    // Input end indices
+    for (int i = 0; i < n; i++) {
+        cin >> endIndex[i];
+    }
+
+    // Calculate results
+    countFrogsBetweenStones(s, startIndex, endIndex, result, n);
+
+    // Output the results
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << endl;
+    }
+
+    return 0;
+}
+
+
+Sample Input:
+*|*|
+1
+1
+3
+
+Output:
+0
