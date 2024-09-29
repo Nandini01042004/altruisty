@@ -1,0 +1,42 @@
+//Question 4
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+int main() {
+    int N; 
+    cin >> N; 
+
+    char B[N]; 
+    unordered_map<char, int> countMap; 
+
+  
+    for (int i = 0; i < N; i++) {
+        cin >> B[i]; 
+        countMap[B[i]]++;
+    }
+
+    for (int i = 0; i < N; i++) {
+        if (countMap[B[i]] % 2 != 0) {
+            cout << B[i] << endl; 
+            return 0; 
+        }
+    }
+
+    cout << "All are even" << endl;
+
+    return 0;
+}
+
+Sample Input:
+7
+r
+g 
+b
+b
+g
+y
+y
+
+Output:
+r
